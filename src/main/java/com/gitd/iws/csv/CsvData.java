@@ -31,20 +31,16 @@ import org.springframework.stereotype.Component;
  *
  * @author afdzal
  */
-
 public class CsvData {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-   // private final ArrayList<String[]> Rs = new ArrayList<String[]>();
+    // private final ArrayList<String[]> Rs = new ArrayList<String[]>();
     private String[] OneRow;
 
     File sourceFile = new File("");
     ArrayList<String> colArr = new ArrayList<String>();
-   
-  
-
 
     public ArrayList<String[]> ReadCSVfile(File DataFile) {
         ArrayList<String[]> Rs = new ArrayList<String[]>();
@@ -54,7 +50,7 @@ public class CsvData {
                 String st = brd.readLine();
                 OneRow = st.split("\\|");
                 Rs.add(OneRow);
-             //   System.out.println(Arrays.toString(OneRow));
+                //   System.out.println(Arrays.toString(OneRow));
             } // end of while
         } // end of try
         catch (Exception e) {
@@ -76,10 +72,8 @@ public class CsvData {
 
         this.jdbcTemplate.update("TRUNCATE TABLE csvdata");
         this.jdbcTemplate.update("TRUNCATE TABLE csvdata2");
-        
-       
-        
-      //  NatQuery nt = new NatQuery();
+
+        //  NatQuery nt = new NatQuery();
         //nt.truncateCsvData();
         System.out.println("truncating");
 
@@ -168,27 +162,12 @@ public class CsvData {
         System.out.println(errFile);
         System.out.println(updFile);
 
-        String sqlUpd = "select * from csvdata2 where flag1 != 'DELETE' or flag1 is null";
+        String sqlUpd = "select * from csvdata2 where flag1 != 'DELETE' ";
+        String sqlErr = "select * from csvdata2 where flag1 in ('DELETE') ";
+        
+        List<String[]> dataUpd =  getResultFromDB(sqlUpd);
+        List<String[]> dataErr =  getResultFromDB(sqlErr);
 
-        List<Map<String, Object>> rows = this.jdbcTemplate.queryForList(sqlUpd);
-        int rowsize = rows.size();
-        List<String[]> dataUpd = new ArrayList<String[]>();
-
-        System.out.println("this.colArr.size()");
-        System.out.println(this.colArr.size());
-
-        for (Map<String, Object> row : rows) {
-            String[] str = new String[this.colArr.size()];
-
-            for (int i2 = 0; i2 < this.colArr.size(); i2++) {
-                str[i2] = (String) row.get(this.colArr.get(i2));
-                System.out.println("i2" + i2);
-            }
-            System.out.println(str);
-            dataUpd.add(str);
-        }
-        System.out.println("dataUpd");
-        System.out.println(dataUpd);
         /*
         try {
             Writer writer = new FileWriter(updFile);
@@ -206,8 +185,8 @@ public class CsvData {
             ex.printStackTrace();
         }
          */
-        File myObj = new File(updFile);
-        myObj.delete();
+        File updObj = new File(updFile);
+        updObj.delete();
         try (
                  ICSVWriter writer = new CSVWriterBuilder(
                         new FileWriter(updFile)).withSeparator('|').build()) {
@@ -217,7 +196,44 @@ public class CsvData {
 
             Logger.getLogger(CsvData.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        File errObj = new File(errFile);
+        errObj.delete();
+        try (
+                 ICSVWriter writer = new CSVWriterBuilder(
+                        new FileWriter(errFile)).withSeparator('|').build()) {
+            writer.writeAll(dataErr, false);
+        } catch (IOException ex) {
+            ex.printStackTrace();
 
+            Logger.getLogger(CsvData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public List<String[]> getResultFromDB(String sql) {
+
+        List<Map<String, Object>> rows = this.jdbcTemplate.queryForList(sql);
+        int rowsize = rows.size();
+        List<String[]> dataFromDB = new ArrayList<String[]>();
+
+        System.out.println("this.colArr.size()");
+        System.out.println(this.colArr.size());
+
+        for (Map<String, Object> row : rows) {
+            String[] str = new String[this.colArr.size()];
+
+            for (int i2 = 0; i2 < this.colArr.size(); i2++) {
+                str[i2] = (String) row.get(this.colArr.get(i2));
+                System.out.println("i2" + i2);
+            }
+            System.out.println(str);
+            dataFromDB.add(str);
+        }
+        System.out.println("dataUpd");
+        System.out.println(dataFromDB);
+        
+        return dataFromDB;
     }
 
     public void setJdbcTemplate(JdbcTemplate jd) {
@@ -225,5 +241,3 @@ public class CsvData {
     }
 
 }
-
-    

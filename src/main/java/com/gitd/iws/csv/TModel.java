@@ -14,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
 public class TModel extends AbstractTableModel {
     
     
-        private final String[] columnNames = { "c01","c02","c03"};
+        private String[] columnNames = { "c01","c02","c03"};
         private ArrayList<String[]> Data = new ArrayList<String[]>();
 
         public void AddCSVData(ArrayList<String[]> DataIn) {
@@ -40,5 +40,11 @@ public class TModel extends AbstractTableModel {
         @Override
         public Object getValueAt(int row, int col) {
             return Data.get(row)[col];
+        }
+        
+        public void setColumNames(ArrayList<String> colNames){
+            System.out.println("colNames");
+            System.out.println(colNames);
+         columnNames = colNames.toArray(new String[0]);
         }
     }

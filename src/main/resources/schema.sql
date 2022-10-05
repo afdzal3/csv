@@ -32,7 +32,8 @@ CREATE TABLE csvdata (
    c28 VARCHAR(100)  NULL, 
    c29 VARCHAR(100)  NULL, 
    c30 VARCHAR(100)  NULL, 
-   c31 VARCHAR(100)  NULL
+   c31 VARCHAR(100)  NULL,
+   flag1 VARCHAR(10) NOT NULL default '0'
 
 );
 
@@ -71,6 +72,6 @@ CREATE TABLE csvdata2 (
    c29 VARCHAR(100)  NULL, 
    c30 VARCHAR(100)  NULL, 
    c31 VARCHAR(100)  NULL,
-   flag1 VARCHAR(10) NULL
+   flag1 VARCHAR(10) NOT NULL default 'X'
 
 );

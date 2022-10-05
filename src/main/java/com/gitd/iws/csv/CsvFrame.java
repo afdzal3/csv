@@ -47,8 +47,6 @@ public class CsvFrame extends javax.swing.JFrame {
         parseButton = new javax.swing.JButton();
         outletCol = new javax.swing.JButton();
         outColSelection = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
 
@@ -86,8 +84,6 @@ public class CsvFrame extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.setViewportView(jTextPane1);
-
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -117,8 +113,7 @@ public class CsvFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(srcPathText, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(outColSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(outColSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -136,9 +131,7 @@ public class CsvFrame extends javax.swing.JFrame {
                 .addComponent(parseButton)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -166,10 +159,13 @@ public class CsvFrame extends javax.swing.JFrame {
       
       ArrayList<String[]> Rs2 = cd.ReadCSVfile(cd.sourceFile);
       TModel NewModel = new TModel();
-      this.jTable2.setModel(NewModel);
+      
+     
       cd.setJdbcTemplate(jdbcTemplate);
       cd.popDB(Rs2);
-      
+            ArrayList<String> colArr = cd.colArr;
+      NewModel.setColumNames(colArr);
+      this.jTable2.setModel(NewModel);
       NewModel.AddCSVData(Rs2);
       
       String otCol = outColSelection.getSelectedItem().toString();
@@ -234,10 +230,8 @@ public class CsvFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton fileSelector;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JComboBox<String> outColSelection;
     private javax.swing.JButton outletCol;
     private javax.swing.JButton parseButton;
