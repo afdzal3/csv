@@ -121,23 +121,20 @@ public class CsvData {
                     + valSql
                     + ") ;";
 
-            String insSql2 = "insert into csvdata2 ("
-                    + colSql
-                    + ") values "
-                    + "( "
-                    + valSql
-                    + ") ;";
+
 
             System.out.println(colSql);
             System.out.println(valSql);
             System.out.println(insSql);
 
             this.jdbcTemplate.execute(insSql);
-            this.jdbcTemplate.execute(insSql2);
+            
 
         }
+        String insSql2 = "insert into csvdata2 select * from csvdata;";
+        this.jdbcTemplate.execute(insSql2);
 
-    }
+    } 
 
     public void removeOutlets(String outletColumn, String outlet) {
 
@@ -148,6 +145,22 @@ public class CsvData {
         this.jdbcTemplate.execute(sql1);
 
     }
+    
+    public void updNullOutlets(String outletColumn, String resellerColumn) {
+
+        String sql1 = "update csvdata2 set flag1 = 'NULL_R' where " + outletColumn + " is null";
+        System.out.println(sql1);
+        this.jdbcTemplate.execute(sql1);
+        
+        String sql2 = "update csvdata2 q1 set q1." + outletColumn + " = (select max(q2." + outletColumn 
+                + " from csvdata q2 "
+                + " where q2."+outletColumn + "is not null "
+                + "   and q2."+resellerColumn + " =  q1."+resellerColumn  ;
+        
+        
+
+    }
+
 
     public void createFiles() {
 
@@ -163,7 +176,7 @@ public class CsvData {
         System.out.println(updFile);
 
         String sqlUpd = "select * from csvdata2 where flag1 != 'DELETE' ";
-        String sqlErr = "select * from csvdata2 where flag1 in ('DELETE') ";
+        String sqlErr = "select * from csvdata2 where flag1 in ('DELETE', 'NULL_R') ";
         
         List<String[]> dataUpd =  getResultFromDB(sqlUpd);
         List<String[]> dataErr =  getResultFromDB(sqlErr);
@@ -188,9 +201,9 @@ public class CsvData {
         File updObj = new File(updFile);
         updObj.delete();
         try (
-                 ICSVWriter writer = new CSVWriterBuilder(
+                 ICSVWriter writer1 = new CSVWriterBuilder(
                         new FileWriter(updFile)).withSeparator('|').build()) {
-            writer.writeAll(dataUpd, false);
+            writer1.writeAll(dataUpd, false);
         } catch (IOException ex) {
             ex.printStackTrace();
 
@@ -200,9 +213,9 @@ public class CsvData {
         File errObj = new File(errFile);
         errObj.delete();
         try (
-                 ICSVWriter writer = new CSVWriterBuilder(
+                 ICSVWriter writer2 = new CSVWriterBuilder(
                         new FileWriter(errFile)).withSeparator('|').build()) {
-            writer.writeAll(dataErr, false);
+            writer2.writeAll(dataErr, false);
         } catch (IOException ex) {
             ex.printStackTrace();
 
@@ -230,7 +243,7 @@ public class CsvData {
             System.out.println(str);
             dataFromDB.add(str);
         }
-        System.out.println("dataUpd");
+        System.out.println("dataFromDB");
         System.out.println(dataFromDB);
         
         return dataFromDB;
