@@ -148,14 +148,18 @@ public class CsvData {
     
     public void updNullOutlets(String outletColumn, String resellerColumn) {
 
-        String sql1 = "update csvdata2 set flag1 = 'NULL_R' where " + outletColumn + " is null";
+        String sql1 = "update csvdata2 set flag1 = 'NULL_R' where " + outletColumn + " = '' ";
         System.out.println(sql1);
         this.jdbcTemplate.execute(sql1);
         
-        String sql2 = "update csvdata2 q1 set q1." + outletColumn + " = (select max(q2." + outletColumn 
-                + " from csvdata q2 "
-                + " where q2."+outletColumn + "is not null "
-                + "   and q2."+resellerColumn + " =  q1."+resellerColumn  ;
+        String sql2 = "update csvdata2 q1 set q1." + outletColumn + " = (select max(q2." + outletColumn + ") "
+                + " from csvdata2 q2 "
+                + " where q2."+outletColumn + " is not null "
+                + "   and q2."+resellerColumn + " =  q1."+resellerColumn  
+                + " ) where flag1 = 'NULL_R'";
+        System.out.println(sql2);
+        
+        this.jdbcTemplate.execute(sql2);
         
         
 

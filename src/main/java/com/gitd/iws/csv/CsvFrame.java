@@ -49,6 +49,8 @@ public class CsvFrame extends javax.swing.JFrame {
         outColSelection = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        resellerColButton = new javax.swing.JButton();
+        resellerSelection = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,7 +79,7 @@ public class CsvFrame extends javax.swing.JFrame {
             }
         });
 
-        outColSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "c01", "c02", "c03", "c04", "c05", "c06", "c07", "c08", "c09", "c10", "c11", "c12", "c13", "c14", "c15", "c16", "c17", "c18", "c19", "c20", "c21", "c22", "c22", "c23", "c24", "c25", "c26", "c27", "c28", "c29", "c30", "31" }));
+        outColSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "c01", "c02", "c03", "c04", "c05", "c06", "c07", "c08", "c09", "c10", "c11", "c12", "c13", "c14", "c15", "c16", "c17", "c18", "c19", "c20", "c21", "c22", "c22", "c23", "c24", "c25", "c26", "c27", "c28", "c29", "c30", "c31" }));
         outColSelection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 outColSelectionActionPerformed(evt);
@@ -97,6 +99,20 @@ public class CsvFrame extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jTable2);
 
+        resellerColButton.setText("Reseller Column");
+        resellerColButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resellerColButtonActionPerformed(evt);
+            }
+        });
+
+        resellerSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "c01", "c02", "c03", "c04", "c05", "c06", "c07", "c08", "c09", "c10", "c11", "c12", "c13", "c14", "c15", "c16", "c17", "c18", "c19", "c20", "c21", "c22", "c22", "c23", "c24", "c25", "c26", "c27", "c28", "c29", "c30", "c31" }));
+        resellerSelection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resellerSelectionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -104,16 +120,20 @@ public class CsvFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(parseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(outletCol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fileSelector, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(parseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(outletCol, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                            .addComponent(fileSelector, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(resellerColButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(srcPathText, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(outColSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(outColSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(resellerSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -128,10 +148,14 @@ public class CsvFrame extends javax.swing.JFrame {
                     .addComponent(outletCol)
                     .addComponent(outColSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(parseButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(resellerColButton)
+                    .addComponent(resellerSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(parseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
@@ -169,9 +193,11 @@ public class CsvFrame extends javax.swing.JFrame {
       NewModel.AddCSVData(Rs2);
       
       String otCol = outColSelection.getSelectedItem().toString();
+      String resCol = resellerSelection.getSelectedItem().toString();
       System.out.println(otCol);
       
       cd.removeOutlets(otCol, "SELFCARE");
+      cd.updNullOutlets(otCol, resCol);
       
       cd.createFiles();
       
@@ -188,6 +214,14 @@ public class CsvFrame extends javax.swing.JFrame {
     private void outColSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outColSelectionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_outColSelectionActionPerformed
+
+    private void resellerColButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resellerColButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_resellerColButtonActionPerformed
+
+    private void resellerSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resellerSelectionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_resellerSelectionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -235,6 +269,8 @@ public class CsvFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> outColSelection;
     private javax.swing.JButton outletCol;
     private javax.swing.JButton parseButton;
+    private javax.swing.JButton resellerColButton;
+    private javax.swing.JComboBox<String> resellerSelection;
     private javax.swing.JTextField srcPathText;
     // End of variables declaration//GEN-END:variables
 }

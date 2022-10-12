@@ -40,7 +40,7 @@ CREATE TABLE csvdata (
 drop table csvdata2 if exists; 
 
 CREATE TABLE csvdata2 ( 
-   id IDENTITY NOT NULL PRIMARY KEY ,
+   id  INTEGER NOT NULL PRIMARY KEY ,
    c01 VARCHAR(100) NULL,
    c02 VARCHAR(100)  NULL,  
    c03 VARCHAR(100)  NULL, 
