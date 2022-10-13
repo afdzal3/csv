@@ -10,7 +10,6 @@
     </parent>
     <groupId>com.gitd.iws</groupId>
     <artifactId>csv</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>csv</name>
     <description>Csv manipulation</description>
     <properties>
